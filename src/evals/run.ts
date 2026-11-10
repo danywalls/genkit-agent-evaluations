@@ -29,11 +29,11 @@ async function runEvaluations() {
   let failedStructure = 0;
   for (const res of structureResults) {
     const ev = res.evaluation as any;
-    console.log(`\nCase [${res.testCaseId}]: ${ev.verdict} (${ev.details.passed})`);
+    console.log(`\nCase [${res.testCaseId}]: ${ev.status} (${ev.details.passed})`);
     for (const c of ev.details.checks) {
       console.log(`  ${c.passed ? '✔' : '✖'} ${c.name}`);
     }
-    if (ev.verdict === 'FAIL') failedStructure++;
+    if (ev.status === 'FAIL') failedStructure++;
   }
 
   console.log('\n--- EVALUATION 2: QUALITY & CONSTRAINTS (LLM JUDGE) ---');

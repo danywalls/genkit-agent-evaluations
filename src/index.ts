@@ -38,4 +38,9 @@ async function main() {
   console.log('='.repeat(50));
 }
 
-main().catch(console.error);
+try {
+  await main();
+} catch (error) {
+  console.error('Failed to generate the travel plan:', error);
+  process.exitCode = 1;
+}

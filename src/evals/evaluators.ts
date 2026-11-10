@@ -42,7 +42,7 @@ export const planStructureEvaluator = ai.defineEvaluator(
       testCaseId: datapoint.testCaseId,
       evaluation: {
         score: allPassed ? 1 : 0,
-        verdict: allPassed ? 'PASS' : 'FAIL',
+        status: allPassed ? 'PASS' : 'FAIL',
         details: {
           passed: `${passedCount}/${checks.length}`,
           checks,
@@ -98,7 +98,11 @@ Score both criteria and provide a short reason for each.`,
     });
 
     const result = response.output;
-    const avgScore = result ? (result.kidSuitability.score + result.budgetAlignment.score) / 4 : 0;
+    if (!result) {
+      throw new Error('The LLM judge did not return a structured result.');
+    }
+
+    const avgScore = (result.kidSuitability.score + result.budgetAlignment.score) / 4;
 
     return {
       testCaseId: datapoint.testCaseId,
